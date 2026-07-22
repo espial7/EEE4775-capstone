@@ -195,9 +195,7 @@ Insert ISR latency results here.
 <h2>Hazard Analysis</h2>
 
 <p>
-The system is designed to demonstrate an industrial emergency-stop (E-STOP)
-response using an ESP32 and FreeRTOS. The hazard analysis identifies
-potential failure modes that could delay, prevent, or incorrectly trigger
+Hazard analysis identifies potential failure modes that could delay, prevent, or incorrectly trigger
 the E-STOP response. Each hazard is evaluated based on its cause,
 potential consequence, and mitigation implemented or demonstrated by the
 system.
@@ -239,51 +237,32 @@ system.
             expected bottom-half response.
         </td>
         <td>
-            The project evaluates both a binary semaphore and a direct
-            task notification for ISR-to-task signaling. The signaling
-            mechanisms are compared using measured response latency.
+            This project evaluates two signaling primitives: a binary semaphore and a direct
+            task notification. The signaling
+            mechanisms are compared using measured response latency, and the most effective is implemented.
         </td>
     </tr>
 
     <tr>
         <td>Excessive ISR execution time</td>
         <td>
-            Too much processing is performed inside the interrupt service
+            Too many operations are performed inside the interrupt service
             routine.
         </td>
         <td>
-            Other interrupts may be delayed and overall system
+            Interrupt latency would increase and overall system
             responsiveness may decrease.
         </td>
         <td>
             The ISR performs minimal processing and defers the main
-            emergency-stop response to a FreeRTOS bottom-half task.
-        </td>
-    </tr>
-
-    <tr>
-        <td>Bottom-half task delayed</td>
-        <td>
-            CPU contention from higher-priority background workload tasks
-            prevents the bottom-half task from executing immediately.
-        </td>
-        <td>
-            Increased E-STOP response latency and delayed transition to
-            the safe state.
-        </td>
-        <td>
-            The bottom-half task is assigned priority 12, while background
-            tasks use controlled priorities. ISR latency is measured both
-            with and without CPU load to characterize the effect of
-            contention.
+            emergency-stop response to a bottom-half task.
         </td>
     </tr>
 
     <tr>
         <td>False E-STOP triggers</td>
         <td>
-            Mechanical button bounce produces multiple electrical
-            transitions from a single physical button press.
+            Mechanical button bounces from a single physical button press.
         </td>
         <td>
             The system may process multiple E-STOP events for one physical
@@ -291,7 +270,7 @@ system.
         </td>
         <td>
             A 200 &micro;s debounce interval is applied in the ISR to
-            reject closely spaced button transitions.
+            reject closely-spaced button reads.
         </td>
     </tr>
 
@@ -329,54 +308,9 @@ system.
             workload and identify potential scheduling concerns.
         </td>
     </tr>
-
-    <tr>
-        <td>CPU overload</td>
-        <td>
-            The combined execution demand of periodic tasks exceeds the
-            available processor capacity.
-        </td>
-        <td>
-            Tasks may miss their intended periods and response latency
-            may increase.
-        </td>
-        <td>
-            WCET measurements and task periods are documented, and ISR
-            latency is evaluated under CPU-loaded conditions to observe
-            the effect of processor contention.
-        </td>
-    </tr>
-
-    <tr>
-        <td>Incorrect shared state</td>
-        <td>
-            Multiple tasks access shared data without appropriate
-            synchronization.
-        </td>
-        <td>
-            Data corruption or inconsistent system state may result.
-        </td>
-        <td>
-            Shared resources should be protected using appropriate
-            synchronization primitives when concurrent access is
-            required. The ISR defers shared-state processing to the
-            bottom-half task.
-        </td>
-    </tr>
 </table>
 
 <h3>Hazard Analysis Summary</h3>
-
-<p>
-The primary safety concern in this system is delayed emergency-stop
-response. The architecture addresses this by keeping the ISR short,
-deferring processing to a dedicated bottom-half task, assigning the
-bottom-half a high priority, and measuring response latency under
-different CPU-load conditions. The system also demonstrates the effect
-of removing <code>portYIELD_FROM_ISR()</code>, which increases response
-latency by preventing an immediate context switch to the unblocked
-bottom-half task.
-</p>
 
 <p>
 The hazard analysis demonstrates that real-time correctness depends not
