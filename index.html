@@ -144,7 +144,50 @@ primitives.
 <h3>WCET Measurements</h3>
 
 <p>
-Insert WCET results here.
+<h3>WCET Results</h3>
+
+<table>
+    <tr>
+        <th>Task</th>
+        <th>Priority</th>
+        <th>Period</th>
+        <th>Maximum Observed Execution Time (µs)</th>
+    </tr>
+
+    <tr>
+        <td>Load Task A</td>
+        <td>15</td>
+        <td>10 ms</td>
+        <td>363</td>
+    </tr>
+
+    <tr>
+        <td>Load Task B</td>
+        <td>10</td>
+        <td>20 ms</td>
+        <td>62,876</td>
+    </tr>
+
+    <tr>
+        <td>Load Task C</td>
+        <td>5</td>
+        <td>50 ms</td>
+        <td>132,977</td>
+    </tr>
+
+    <tr>
+        <td>Load Task D</td>
+        <td>2</td>
+        <td>100 ms</td>
+        <td>1,386,682</td>
+    </tr>
+</table>
+
+<p>
+These values represent the maximum observed execution times during the
+test run and should be interpreted as observed WCET measurements rather
+than formally proven worst-case execution times.
+</p>
 </p>
 
 <h3>ISR Latency</h3>
