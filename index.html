@@ -80,21 +80,63 @@ primitives.
 </tr>
 
 <tr>
-    <td>Task 1</td>
-    <td>Core 0</td>
-    <td>--</td>
-    <td>--</td>
-    <td>--</td>
+    <td>load_task_a</td>
+    <td>1</td>
+    <td>15</td>
+    <td>10 ms</td>
+    <td>CPU Load</td>
 </tr>
 
 <tr>
-    <td>Task 2</td>
-    <td>Core 1</td>
-    <td>--</td>
-    <td>--</td>
-    <td>--</td>
+    <td>load_task_b</td>
+    <td>1</td>
+    <td>10</td>
+    <td>20 ms</td>
+    <td>CPU Load</td>
 </tr>
 
+
+<tr>
+    <td>load_task_c</td>
+    <td>1</td>
+    <td>5</td>
+    <td>50 ms</td>
+    <td>CPU Load</td>
+</tr>
+
+
+<tr>
+    <td>load_task_d</td>
+    <td>1</td>
+    <td>2</td>
+    <td>100 ms</td>
+    <td>CPU Load</td>
+</tr>
+
+<tr>
+    <td>button_isr</td>
+    <td>1</td>
+    <td>ISR</td>
+    <td>Button Press</td>
+    <td>Captures E-STOP event and signals bottom-half</td>
+</tr>
+
+<tr>
+    <td>btn_task_sem</td>
+    <td>1</td>
+    <td>12</td>
+    <td>Event-driven</td>
+    <td>Handles E-STOP through binary semaphore</td>
+</tr>
+
+<tr>
+    <td>btn_task_notif</td>
+    <td>1</td>
+    <td>12</td>
+    <td>Event-driven</td>
+    <td>Handles E-STOP through direct notification</td>
+</tr>
+    
 </table>
 
 <h2>Real-Time Analysis</h2>
