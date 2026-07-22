@@ -324,9 +324,73 @@ emergency-stop system.
 <h2>Standards Mapping</h2>
 
 <p>
-Describe the relevant real-time and embedded-system standards and how
-the project relates to them.
+The project is designed as an educational demonstration of real-time
+emergency-stop behavior and is not intended to claim certification or
+compliance with any safety standard. The system is evaluated against
+concepts relevant to ASTM F2291, which provides safety guidance for
+designing amusement rides and devices. The project applies these
+concepts to a simplified real-time emergency-stop system to demonstrate
+how real-time software behavior can contribute to safety-related
+functions.
 </p>
+
+<h3>ASTM F2291 Concepts Applied in this Project</h3>
+<table>
+    <tr>
+        <th>Standard / Concept</th>
+        <th>Project Application</th>
+        <th>Evidence</th>
+    </tr>
+
+    <tr>
+        <td>Emergency Stop / Safety-Related Controls</td>
+        <td>
+            The system models an emergency-stop function in which a
+            physical button generates an interrupt that initiates a
+            safety response.
+        </td>
+        <td>
+            GPIO button input, ISR, and dedicated E-STOP bottom-half task.
+        </td>
+    </tr>
+
+    <tr>
+        <td>Safety-Related System Response</td>
+        <td>
+            The design emphasizes predictable and timely response to an
+            emergency event. The interrupt handler performs minimal work
+            and defers processing to a dedicated FreeRTOS task.
+        </td>
+        <td>
+            ISR-to-task signaling and measured E-STOP response latency
+            under idle and CPU-loaded conditions.
+        </td>
+    </tr>
+
+    <tr>
+        <td>Fault and Failure Considerations</td>
+        <td>
+            The project evaluates how a failure in the real-time response
+            path can degrade system behavior.
+        </td>
+        <td>
+            Induced failure by removing <code>portYIELD_FROM_ISR()</code>,
+            resulting in increased E-STOP response latency.
+        </td>
+    </tr>
+
+    <tr>
+        <td>Risk Reduction Through Safety Functions</td>
+        <td>
+            The E-STOP function is treated as a dedicated safety-related
+            response separate from normal background processing.
+        </td>
+        <td>
+            Dedicated E-STOP bottom-half task with a priority of 12 and
+            explicit ISR-to-task communication.
+        </td>
+    </tr>
+</table>
 
 <h2>Failure Injection</h2>
 
