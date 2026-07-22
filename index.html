@@ -391,12 +391,96 @@ functions.
         </td>
     </tr>
 </table>
-
-<h2>Failure Injection</h2>
+    
+<h2>Induced Failure</h2>
 
 <p>
-Describe the induced failure demonstrated during the project presentation
-and explain how the system degraded and recovered.
+To evaluate the effect of real-time scheduling behavior on the emergency-stop
+response, a fault was intentionally introduced by removing the
+<code>portYIELD_FROM_ISR()</code> call from the GPIO interrupt service routine.
+This function normally requests an immediate context switch when the ISR
+unblocks a higher-priority task.
+</p>
+
+<h3>Normal Operation</h3>
+
+<p>
+During normal operation, the GPIO ISR detects the emergency-stop button press,
+signals the E-STOP bottom-half task, and calls
+<code>portYIELD_FROM_ISR()</code>. This allows the newly unblocked
+higher-priority task to execute immediately rather than waiting for the
+currently running task to yield or be preempted.
+</p>
+
+<pre><code>Button Press
+    ↓
+GPIO ISR
+    ↓
+Signal E-STOP Bottom-Half Task
+    ↓
+portYIELD_FROM_ISR()
+    ↓
+Immediate Context Switch
+    ↓
+E-STOP Response
+</code></pre>
+
+<h3>Injected Failure</h3>
+
+<p>
+The failure was induced by commenting out the
+<code>portYIELD_FROM_ISR()</code> call line in the ISR. The interrupt still
+detected the emergency-stop event and signaled the bottom-half task, but
+the immediate context switch was no longer requested.
+</p>
+
+<pre><code>Button Press
+    ↓
+GPIO ISR
+    ↓
+Signal E-STOP Bottom-Half Task
+    ↓
+No Immediate Context Switch
+    ↓
+Current Task Continues
+    ↓
+E-STOP Bottom-Half Task Runs Later
+    ↓
+Delayed E-STOP Response
+</code></pre>
+
+<h3>Measured Fault</h3>
+
+<table>
+    <tr>
+        <th>Condition</th>
+        <th>Measured Latency</th>
+    </tr>
+
+    <tr>
+        <td>Normal operation with <code>portYIELD_FROM_ISR()</code></td>
+        <td>422 &micro;s</td>
+    </tr>
+
+    <tr>
+        <td>Failure injected: <code>portYIELD_FROM_ISR()</code> removed</td>
+        <td>2,595 &micro;s</td>
+    </tr>
+</table>
+
+<p>
+Removing <code>portYIELD_FROM_ISR()</code> increased the response
+latency from 422 &micro;s to 2,595 &micro;s, proving a significant
+decline in emergency-stop response time. The failure demonstrates that
+correct ISR-to-task scheduling behavior is important for achieving an effective
+real-time response.
+</p>
+
+<h3>Recovery</h3>
+
+<p>
+After the induced failure test, <code>portYIELD_FROM_ISR()</code> was restored
+to the ISR, and the system returned to its normal state.
 </p>
 
 <h2>Demo</h2>
@@ -408,7 +492,7 @@ The project demonstration video is embedded below.
 <!-- YouTube video goes here -->
 
 <h2>Source Code</h2>
-
+    
 <p>
 <a href="https://github.com/YOUR_USERNAME/EEE4775-capstone">
 View the project source code on GitHub
