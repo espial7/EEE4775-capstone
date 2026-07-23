@@ -133,88 +133,23 @@ latencies are measured and compared under both unloaded and loaded system
 conditions.
 </p>
 
-<h3>Background Workload</h3>
+<h3>Concurrency Diagram & Scheduling</h3>
 
-<p>
-To evaluate the effect of CPU contention, four periodic background tasks
-execute on the same processor core as the E-STOP response tasks. These tasks
-provide a controlled real-time workload with different priorities and
-periods.
-</p>
-
-<h3>Experimental Configurations</h3>
-
-<p>
-The same E-STOP response path is evaluated under two system configurations.
-The signaling mechanism is also varied, producing four experimental cases.
-</p>
-
-<table>
-    <tr>
-        <th>Configuration</th>
-        <th>Background Load</th>
-        <th>Signaling Mechanism</th>
-        <th>Purpose</th>
-    </tr>
-    <tr>
-        <td>1</td>
-        <td>Disabled</td>
-        <td>Direct Task Notification</td>
-        <td>Measure baseline E-STOP latency</td>
-    </tr>
-    <tr>
-        <td>2</td>
-        <td>Disabled</td>
-        <td>Binary Semaphore</td>
-        <td>Measure baseline semaphore latency</td>
-    </tr>
-    <tr>
-        <td>3</td>
-        <td>Enabled</td>
-        <td>Direct Task Notification</td>
-        <td>Measure notification latency under CPU load</td>
-    </tr>
-    <tr>
-        <td>4</td>
-        <td>Enabled</td>
-        <td>Binary Semaphore</td>
-        <td>Measure semaphore latency under CPU load</td>
-    </tr>
-</table>
-
-<p>
-The four configurations allow the project to isolate two factors that can
-affect real-time response: the ISR-to-task signaling mechanism and the
-presence of competing background workload. The measured results from these
-configurations are presented in the <strong>Latency Analysis</strong>
-section.
-</p>
-
-<h3>Concurrency and Scheduling Behavior</h3>
-
-<p>
-The system is concurrent because multiple FreeRTOS tasks execute
-independently and compete for processor time according to their priorities
-and release times. Under the loaded configuration, the background tasks
-execute concurrently with the E-STOP response system. When the E-STOP
-button is pressed, the GPIO ISR interrupts the currently executing task and
-signals the E-STOP bottom-half task.
-</p>
-
-<p>
-The scheduler then determines which ready task executes based on FreeRTOS
-priority rules. Because the E-STOP bottom-half tasks have priority 12,
-Tasks B, C, and D cannot preempt them. However, Task A has priority 15 and
-can preempt the E-STOP bottom-half task when Task A becomes ready. This
-interaction is a key reason for measuring E-STOP response latency under
-background workload.
-</p>
 
 <p>
 The image below shows a concurrency diagram of when the system is running. 
 The black segments mean the task is running, the gray means it is ready, 
 and the white means it is blocked. The timeline assumes the button is 
-pressed at 40 ms, which causes the semaphore and notif tasks run.
+pressed at 40 ms, which causes the semaphore and notif tasks to run.
+</p>
+    
+<p>
+The scheduler determines which ready task executes based on FreeRTOS
+priority rules. Because the E-Stop response tasks have priority 12,
+tasks B, C, and D cannot preempt them. However, Task A has priority 15 and
+can preempt the E-STOP bottom-half task when Task A becomes ready. This
+interaction is a key reason for measuring E-STOP response latency under
+background workload.
 </p>
 
 <img src="concurrency_diagram.png">
