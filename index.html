@@ -52,10 +52,13 @@
 <h2>Project Overview</h2>
 
 <p>
-This project demonstrates a real-time embedded system implemented using
-FreeRTOS on an ESP32. The system demonstrates real-time scheduling,
-inter-task communication, interrupt handling, synchronization, and
-real-time performance measurement.
+This project evaluates the real-time response of an event on an ESP32 running 
+    FreeRTOS, under the theme of an E-stop system on a theme park ride. The experiment 
+    compares two ISR-to-task signaling mechanisms: a binary semaphore and a 
+    direct task notification. It then measures their response latency both with and without background load tasks.
+
+The goal is to determine how CPU workload affects the time between 
+    an E-STOP button press and the execution of the response task.
 </p>
 
 <h2>System Architecture</h2>
