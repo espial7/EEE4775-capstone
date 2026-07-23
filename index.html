@@ -142,49 +142,6 @@ provide a controlled real-time workload with different priorities and
 periods.
 </p>
 
-<table>
-    <tr>
-        <th>Task</th>
-        <th>Priority</th>
-        <th>Period</th>
-        <th>Purpose</th>
-    </tr>
-    <tr>
-        <td>Task A</td>
-        <td>15</td>
-        <td>10 ms</td>
-        <td>Highest-priority background workload</td>
-    </tr>
-    <tr>
-        <td>Task B</td>
-        <td>10</td>
-        <td>20 ms</td>
-        <td>Periodic background workload</td>
-    </tr>
-    <tr>
-        <td>Task C</td>
-        <td>5</td>
-        <td>50 ms</td>
-        <td>Periodic background workload</td>
-    </tr>
-    <tr>
-        <td>Task D</td>
-        <td>2</td>
-        <td>100 ms</td>
-        <td>Lowest-priority background workload</td>
-    </tr>
-</table>
-
-<p>
-Task A has priority 15, which is higher than the priority-12 E-STOP
-bottom-half tasks. As a result, Task A can preempt an E-STOP bottom-half
-task when it becomes ready to run. Tasks B, C, and D have lower priorities
-than the E-STOP bottom-half tasks and therefore cannot directly preempt them.
-This priority structure allows the experiment to demonstrate how
-real-time scheduling and competing workload can affect E-STOP response
-latency.
-</p>
-
 <h3>Experimental Configurations</h3>
 
 <p>
@@ -335,6 +292,16 @@ pressed at 40 ms, which causes the semaphore and notif tasks run.
     
 </table>
 
+<p>
+Task A has priority 15, which is higher than the priority-12 E-STOP
+bottom-half tasks. As a result, Task A can preempt an E-STOP bottom-half
+task when it becomes ready to run. Tasks B, C, and D have lower priorities
+than the E-STOP bottom-half tasks and therefore cannot directly preempt them.
+This priority structure allows the experiment to demonstrate how
+real-time scheduling and competing workload can affect E-STOP response
+latency.
+</p>
+    
 <h2>Real-Time Analysis</h2>
 
 <h3>WCET Measurements</h3>
