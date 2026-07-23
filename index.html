@@ -53,7 +53,7 @@
 
 <p>
 This project evaluates the real-time response of an event on an ESP32 running 
-    FreeRTOS, under the theme of an E-stop system on a theme park ride. The experiment 
+    FreeRTOS, under the theme of an emergency stop (E-Stop) system on a theme park ride. The experiment 
     compares two ISR-to-task signaling mechanisms: a binary semaphore and a 
     direct task notification. It then measures their response latency both with and without background load tasks.
 
@@ -64,33 +64,25 @@ The goal is to determine how CPU workload affects the time between
 <h2>System Architecture</h2>
 
 <p>
-The system is an ESP32-based real-time emergency-stop (E-STOP) response
+The system is an ESP32-based real-time E-Stop response
 experiment implemented using FreeRTOS. The primary purpose of the system is
 to measure how background CPU workload and the choice of ISR-to-task
 signaling mechanism affect E-STOP response latency.
 </p>
 
 <p>
-When the E-STOP button is pressed, a GPIO interrupt service routine (ISR)
-executes and signals the E-STOP bottom-half response task. Two signaling
+When the E-Stop button is pressed, a GPIO interrupt service routine (ISR)
+executes and signals the E-Stop bottom-half response task. Two signaling
 mechanisms are evaluated: a binary semaphore and a direct task notification.
 The experiment is performed under two workload conditions: with the
 background load tasks disabled and with the background load tasks enabled.
-This allows the effect of CPU contention and task scheduling on the
+This allows the effect of CPU workload and task scheduling on the
 end-to-end E-STOP response to be measured.
 </p>
 
-<h3>System Overview</h3>
-
-<div class="diagram-container">
-    <img src="architecture-diagram.png"
-         alt="System architecture diagram showing the E-STOP button, GPIO ISR, binary semaphore and direct task notification paths, E-STOP bottom-half tasks, and background workload tasks."
-         class="architecture-diagram">
-</div>
-
 <p>
 The system runs the E-STOP response and background workload on the same
-FreeRTOS processor core so that the experiment can evaluate the effect of
+processor core so that the experiment can evaluate the effect of
 competing CPU workload on response latency.
 </p>
 
