@@ -513,12 +513,12 @@ response latency is recorded.
     <tr>
         <td>Direct Task Notification</td>
         <td>Disabled</td>
-        <td>30 &micro;s</td>
+        <td>37 &micro;s</td>
     </tr>
     <tr>
         <td>Binary Semaphore</td>
         <td>Disabled</td>
-        <td>2,309 &micro;s</td>
+        <td>2,273 &micro;s</td>
     </tr>
 </table>
 
@@ -555,12 +555,12 @@ background workload.
     <tr>
         <td>Direct Task Notification</td>
         <td>Enabled</td>
-        <td>3,018 &micro;s</td>
+        <td>2,926 &micro;s</td>
     </tr>
     <tr>
         <td>Binary Semaphore</td>
         <td>Enabled</td>
-        <td>422 &micro;s</td>
+        <td>2,547 &micro;s</td>
     </tr>
 </table>
 
@@ -582,13 +582,13 @@ signaling mechanisms changes between the unloaded and loaded conditions.
     </tr>
     <tr>
         <td>WITH_LOAD = 0</td>
-        <td>30 &micro;s</td>
-        <td>2,309 &micro;s</td>
+        <td>37 &micro;s</td>
+        <td>2,273 &micro;s</td>
     </tr>
     <tr>
         <td>WITH_LOAD = 1</td>
-        <td>3,018 &micro;s</td>
-        <td>422 &micro;s</td>
+        <td>2,926 &micro;s</td>
+        <td>2,547 &micro;s</td>
     </tr>
 </table>
 
@@ -626,8 +626,8 @@ priorities and release periods.
 <p>
 The measured results demonstrate that adding workload can substantially
 change the E-STOP response latency. Direct task notification increased from
-30 &micro;s without background load to 3,018 &micro;s with background load.
-The binary semaphore measurement changed from 2,309 &micro;s to 422 &micro;s.
+37 &micro;s without background load to 2,926 &micro;s with background load.
+The binary semaphore measurement changed from 2,273 &micro;s to 2,547 &micro;s.
 Therefore, the effect of workload is not simply a uniform increase in
 latency across all signaling mechanisms.
 </p>
@@ -822,18 +822,18 @@ Delayed E-STOP Response
 
     <tr>
         <td>Normal operation with <code>portYIELD_FROM_ISR()</code></td>
-        <td>422 &micro;s</td>
+        <td>2,926 &micro;s</td>
     </tr>
 
     <tr>
         <td>Failure injected: <code>portYIELD_FROM_ISR()</code> removed</td>
-        <td>2,595 &micro;s</td>
+        <td>3,001 &micro;s</td>
     </tr>
 </table>
 
 <p>
 Removing <code>portYIELD_FROM_ISR()</code> increased the response
-latency from 422 &micro;s to 2,595 &micro;s, proving a significant
+latency from 2,926 &micro;s to 3,001 &micro;s, proving a slight 
 decline in emergency-stop response time. The failure demonstrates that
 correct ISR-to-task scheduling behavior is important for achieving an effective
 real-time response.
