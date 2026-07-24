@@ -492,13 +492,7 @@ controlled real-time background workload.
 When <code>WITH_LOAD</code> is set to <code>0</code>, the four periodic
 background workload tasks are not created. The E-STOP response system runs
 without the additional application-level CPU workload used in the loaded
-experiment.
-</p>
-
-<pre><code>#define WITH_LOAD 0</code></pre>
-
-<p>
-This configuration provides the baseline latency measurements for the two
+experiment. This configuration provides the baseline latency measurements for the two
 ISR-to-task signaling mechanisms. The E-STOP button is pressed repeatedly
 using both a direct task notification and a binary semaphore, and the
 response latency is recorded.
@@ -538,14 +532,6 @@ allow the effect of task scheduling and processor contention on E-STOP
 response latency to be evaluated.
 </p>
 
-<pre><code>#define WITH_LOAD 1</code></pre>
-
-<p>
-The same E-STOP latency measurements are repeated using both signaling
-mechanisms. The only experimental change is the addition of the periodic
-background workload.
-</p>
-
 <table>
     <tr>
         <th>Signaling Mechanism</th>
@@ -564,15 +550,7 @@ background workload.
     </tr>
 </table>
 
-<p>
-The loaded configuration demonstrates that the measured E-STOP response
-latency can change significantly when competing real-time workload is
-introduced. The results also show that the relative latency of the two
-signaling mechanisms changes between the unloaded and loaded conditions.
-</p>
-
-
-<h3>Latency Comparison</h3>
+<h3>Experiment Results</h3>
 
 <table>
     <tr>
@@ -595,7 +573,7 @@ signaling mechanisms changes between the unloaded and loaded conditions.
 <p>
 The results demonstrate that the signaling mechanism cannot be evaluated
 independently from the scheduling environment in which it operates. The
-addition of background workload changes the observed end-to-end response
+addition of background workload increases the observed end-to-end response
 latency, and the relative performance of the two signaling mechanisms also
 changes between the two configurations.
 </p>
